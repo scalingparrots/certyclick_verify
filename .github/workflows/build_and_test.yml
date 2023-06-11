@@ -1,6 +1,6 @@
 name: Build and Test
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
-      
+
     - name: Checkout code
       uses: actions/checkout@v2
 
