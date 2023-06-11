@@ -56,13 +56,13 @@ jobs:
                 tag: context.ref.replace('refs/tags/', '')
               })
               return { id: data.id, upload_url: data.upload_url }
-    - name: Upload Release Asset CLI MacOS
+        - name: Upload Release Asset CLI MacOS
       id: upload-release-asset-cli-macos
       uses: actions/upload-release-asset@v1 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        upload_url: ${{ steps.get_release.outputs.upload_url }} 
         asset_path: ./dist/macos/certyclick_verify_cli
         asset_name: certyclick_verify_cli_macos
         asset_content_type: application/octet-stream
@@ -72,7 +72,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        upload_url: ${{ steps.get_release.outputs.upload_url }} 
         asset_path: ./dist/windows/certyclick_verify_cli.exe
         asset_name: certyclick_verify_cli_windows.exe
         asset_content_type: application/octet-stream
@@ -82,7 +82,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        upload_url: ${{ steps.get_release.outputs.upload_url }} 
         asset_path: ./dist/linux/certyclick_verify_cli
         asset_name: certyclick_verify_cli_linux
         asset_content_type: application/octet-stream
@@ -92,7 +92,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        upload_url: ${{ steps.get_release.outputs.upload_url }} 
         asset_path: ./dist/certyclick_verify_gui
         asset_name: certyclick_verify_gui_${{ matrix.os }}
         asset_content_type: application/octet-stream
