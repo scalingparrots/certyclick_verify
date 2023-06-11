@@ -1,7 +1,7 @@
 name: CI
 
 on: 
-  push:
+  create:
     tags:
       - '*'
 
@@ -54,7 +54,7 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-        - name: Upload Release Asset CLI MacOS
+    - name: Upload Release Asset CLI MacOS
       id: upload-release-asset-cli-macos
       uses: actions/upload-release-asset@v1 
       env:
