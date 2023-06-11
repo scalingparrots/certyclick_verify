@@ -2,7 +2,6 @@ package core_test
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -11,7 +10,7 @@ import (
 
 func TestCalculateHash(t *testing.T) {
 	// Create a temporary file
-	file, err := ioutil.TempFile("", "testfile")
+	file, err := os.CreateTemp("", "testfile")
 	if err != nil {
 		t.Fatal("Error creating temporary file:", err)
 	}
