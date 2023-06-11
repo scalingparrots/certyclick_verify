@@ -59,13 +59,43 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset 
+        - name: Upload Release Asset CLI MacOS
+      id: upload-release-asset-cli-macos
       uses: actions/upload-release-asset@v1 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
-        asset_path: ./dist/* 
-        asset_name: dist-${{ matrix.os }}.zip 
-        asset_content_type: application/zip
+        asset_path: ./dist/macos/certyclick_verify_cli
+        asset_name: certyclick_verify_cli_macos
+        asset_content_type: application/octet-stream
+    - name: Upload Release Asset CLI Windows
+      id: upload-release-asset-cli-windows
+      uses: actions/upload-release-asset@v1 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./dist/windows/certyclick_verify_cli.exe
+        asset_name: certyclick_verify_cli_windows.exe
+        asset_content_type: application/octet-stream
+    - name: Upload Release Asset CLI Linux
+      id: upload-release-asset-cli-linux
+      uses: actions/upload-release-asset@v1 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./dist/linux/certyclick_verify_cli
+        asset_name: certyclick_verify_cli_linux
+        asset_content_type: application/octet-stream
+    - name: Upload Release Asset GUI
+      id: upload-release-asset-gui
+      uses: actions/upload-release-asset@v1 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./dist/certyclick_verify_gui
+        asset_name: certyclick_verify_gui_${{ matrix.os }}
+        asset_content_type: application/octet-stream
