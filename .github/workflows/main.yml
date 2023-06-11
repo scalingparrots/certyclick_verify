@@ -19,31 +19,6 @@ jobs:
       run: go mod download
     - name: Build CLI
       run: make cli
-    - name: Archive production artifacts 
-      uses: actions/upload-artifact@v2
-      with:
-        name: dist-cli
-        path: dist/*
-
-  build-gui:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.15
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
-    - name: Get dependencies
-      run: go mod download
-    - name: Install dependencies on Ubuntu
-      if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
-    - name: Build GUI
-      run: make gui
     - name: Upload Release Asset CLI MacOS
       id: upload-release-asset-cli-macos
       uses: svenstaro/upload-release-action@v2
@@ -74,6 +49,26 @@ jobs:
         tag: ${{ github.ref }}
         overwrite: true
         body: "This is my release text"
+
+  build-gui:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Set up Go 1.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.15
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+    - name: Get dependencies
+      run: go mod download
+    - name: Install dependencies on Ubuntu
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
+    - name: Build GUI
+      run: make gui
     - name: Upload Release Asset GUI
       id: upload-release-asset-gui
       uses: svenstaro/upload-release-action@v2
