@@ -1,6 +1,6 @@
 # Certyclick Verify
 
-Certyclick Verify is a file hash verification tool that allows you to verify the integrity of files using cryptographic hash functions.
+Certyclick-verify is a verification tool that allows you to verify the hashed proofs generated from certyclick.com
 
 ## Features
 
