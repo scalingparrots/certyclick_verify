@@ -45,18 +45,18 @@ jobs:
     - name: Build GUI
       run: make gui
     - name: Get release info
-          id: get_release
-          uses: actions/github-script@v3
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            script: |
-              const { data } = await github.repos.getReleaseByTag({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag: context.ref.replace('refs/tags/', '')
-              })
-              return { id: data.id, upload_url: data.upload_url }
-        - name: Upload Release Asset CLI MacOS
+      id: get_release
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const { data } = await github.repos.getReleaseByTag({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag: context.ref.replace('refs/tags/', '')
+          })
+          return { id: data.id, upload_url: data.upload_url }
+    - name: Upload Release Asset CLI MacOS
       id: upload-release-asset-cli-macos
       uses: actions/upload-release-asset@v1 
       env:
