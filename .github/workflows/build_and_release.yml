@@ -5,9 +5,8 @@ env:
   GO_VERSION: 1.17
 
 on:
-  create:
-    tags:
-      - "v*"
+  release:
+    types: [created]
 
 jobs:
   build-cli:
