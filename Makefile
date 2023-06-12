@@ -9,8 +9,10 @@ BINARY_NAME := certyclick_verify
 all: cli gui
 
 cli:
-	mkdir -p $(DIST_DIR)/macos
-	GOOS=darwin GOARCH=amd64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_cli ./$(CLI_DIR)
+	mkdir -p $(DIST_DIR)/macos_intel
+	GOOS=darwin GOARCH=amd64 go build -o $(DIST_DIR)/macos_intel/$(BINARY_NAME)_cli ./$(CLI_DIR)
+	mkdir -p $(DIST_DIR)/macos_m1
+	GOOS=darwin GOARCH=arm64 go build -o $(DIST_DIR)/macos_m1/$(BINARY_NAME)_cli ./$(CLI_DIR)
 	mkdir -p $(DIST_DIR)/windows
 	GOOS=windows GOARCH=amd64 go build -o $(DIST_DIR)/windows/$(BINARY_NAME)_cli.exe ./$(CLI_DIR)
 	mkdir -p $(DIST_DIR)/linux

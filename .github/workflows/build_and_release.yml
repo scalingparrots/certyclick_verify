@@ -1,81 +1,68 @@
 name: Build and Release
 
-on: 
+env:
+  BINARY_name: certyclick_verify
+  GO_VERSION: 1.17
+
+on:
   create:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build-cli:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [macos_m1, macos, windows, linux]
     steps:
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.15
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
-    - name: Get dependencies
-      run: go mod download
-    - name: Build CLI
-      run: make cli
-    - name: Upload Release Asset CLI MacOS
-      id: upload-release-asset-cli-macos
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./dist/macos/certyclick_verify_cli
-        asset_name: certyclick_verify_cli_macos
-        tag: ${{ github.ref }}
-        overwrite: true
-        body: "This is my release text"
-    - name: Upload Release Asset CLI Windows
-      id: upload-release-asset-cli-windows
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./dist/windows/certyclick_verify_cli.exe
-        asset_name: certyclick_verify_cli_windows.exe
-        tag: ${{ github.ref }}
-        overwrite: true
-        body: "This is my release text"
-    - name: Upload Release Asset CLI Linux
-      id: upload-release-asset-cli-linux
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./dist/linux/certyclick_verify_cli
-        asset_name: certyclick_verify_cli_linux
-        tag: ${{ github.ref }}
-        overwrite: true
-        body: "This is my release text"
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+      - name: Get dependencies
+        run: go mod download
+      - name: Build CLI
+        run: make cli
+      - name: Upload Release Asset CLI
+        id: upload-release-asset-cli-${{ matrix.os }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/${{ matrix.os }}/${{ env.BINARY_NAME }}_cli
+          asset_name: ${{ env.BINARY_NAME }}_cli_${{ matrix.os }}
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "This is my release text"
 
   build-gui:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [macos_m1, macos, windows, linux]
     runs-on: ${{ matrix.os }}
     steps:
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.15
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
-    - name: Get dependencies
-      run: go mod download
-    - name: Install dependencies on Ubuntu
-      if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
-    - name: Build GUI
-      run: make gui
-    - name: Upload Release Asset GUI
-      id: upload-release-asset-gui
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./dist/certyclick_verify_gui
-        asset_name: certyclick_verify_gui_${{ matrix.os }}
-        tag: ${{ github.ref }}
-        overwrite: true
-        body: "This is my release text"
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.15
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+      - name: Get dependencies
+        run: go mod download
+      - name: Install dependencies on Ubuntu
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
+      - name: Build GUI
+        run: make gui
+      - name: Upload Release Asset GUI
+        id: upload-release-asset-gui
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/${{ env.BINARY_NAME }}_gui
+          asset_name: ${{ env.BINARY_NAME }}_gui_${{ matrix.os }}
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "This is my release text"
