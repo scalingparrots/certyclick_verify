@@ -1,7 +1,7 @@
 name: Build and Release
 
 env:
-  BINARY_name: certyclick_verify
+  BINARY_NAME: certyclick_verify
   GO_VERSION: 1.17
 
 on:
@@ -40,7 +40,7 @@ jobs:
   build-gui:
     strategy:
       matrix:
-        os: [macos_m1, macos_latest, windows, linux]
+        os: [macos-latest, windows-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Go 1.x
