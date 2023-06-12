@@ -11,10 +11,10 @@ on:
 
 jobs:
   build-cli:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [macos_m1, macos, windows, linux]
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
@@ -27,7 +27,7 @@ jobs:
       - name: Build CLI
         run: make cli
       - name: Upload Release Asset CLI
-        id: upload-release-asset-cli-${{ matrix.os }}
+        id: upload-release-asset-cli
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -40,7 +40,7 @@ jobs:
   build-gui:
     strategy:
       matrix:
-        os: [macos_m1, macos, windows, linux]
+        os: [macos_m1, macos_latest, windows, linux]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Go 1.x
