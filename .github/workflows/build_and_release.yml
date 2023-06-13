@@ -3,6 +3,10 @@ name: Build and Release
 env:
   BINARY_NAME: certyclick_verify
   GO_VERSION: 1.17
+  GOARCH: amd64
+  DIST_DIR: dist
+  CLI_DIR: cli
+  GUI_DIR: gui
 
 on:
   release:
