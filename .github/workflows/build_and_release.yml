@@ -34,8 +34,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/${{ matrix.os }}/${{ env.BINARY_NAME }}_cli
-          asset_name: ${{ env.BINARY_NAME }}_cli_${{ matrix.os }}
+          file: ./dist/${{ matrix.os }}/${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_cli.exe' || '_cli' }}
+          asset_name: ${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_cli.exe' || '_cli' }}_${{ matrix.os }}
           tag: ${{ github.ref }}
           overwrite: true
           body: ${{ github.ref }}
@@ -72,8 +72,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/${{ matrix.os }}/${{ env.BINARY_NAME }}_gui
-          asset_name: ${{ env.BINARY_NAME }}_gui_${{ matrix.os }}
+          file: ./dist/${{ matrix.os }}/${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_gui.exe' || '_gui' }}
+          asset_name: ${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_gui.exe' || '_gui' }}_${{ matrix.os }}
           tag: ${{ github.ref }}
           overwrite: true
           body: ${{ github.ref }}
