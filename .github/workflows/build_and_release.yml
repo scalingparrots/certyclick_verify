@@ -3,6 +3,10 @@ name: Build and Release
 env:
   BINARY_NAME: certyclick_verify
   GO_VERSION: 1.17
+  GOARCH: amd64
+  DIST_DIR: dist
+  CLI_DIR: cli
+  GUI_DIR: gui
 
 on:
   release:
@@ -54,6 +58,7 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
       - name: Build GUI
+        shell: bash
         run: |
           if [[ "${{ matrix.os }}" == "macos" ]]; then
             make gui-macos
