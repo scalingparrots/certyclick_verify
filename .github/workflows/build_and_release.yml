@@ -54,7 +54,14 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev xorg-dev
       - name: Build GUI
-        run: make gui
+        run: |
+          if [[ "${{ matrix.os }}" == "macos" ]]; then
+            make gui-macos
+          elif [[ "${{ matrix.os }}" == "ubuntu" ]]; then
+            make gui-linux
+          elif [[ "${{ matrix.os }}" == "windows" ]]; then
+            make gui-windows
+          fi
       - name: Upload Release Asset GUI
         id: upload-release-asset-gui
         uses: svenstaro/upload-release-action@v2
