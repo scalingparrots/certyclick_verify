@@ -8,19 +8,35 @@ BINARY_NAME := certyclick_verify
 
 all: cli gui
 
-cli:
-	mkdir -p $(DIST_DIR)/macos_intel
-	GOOS=darwin GOARCH=amd64 go build -o $(DIST_DIR)/macos_intel/$(BINARY_NAME)_cli ./$(CLI_DIR)
-	mkdir -p $(DIST_DIR)/macos_m1
-	GOOS=darwin GOARCH=arm64 go build -o $(DIST_DIR)/macos_m1/$(BINARY_NAME)_cli ./$(CLI_DIR)
+cli: cli-macos cli-macos-m1 cli-windows cli-linux
+
+cli-macos:
+	mkdir -p $(DIST_DIR)/macos
+	GOOS=darwin GOARCH=amd64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_cli ./$(CLI_DIR)
+cli-macos-m1:
+	mkdir -p $(DIST_DIR)/macos
+	GOOS=darwin GOARCH=arm64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_cli ./$(CLI_DIR)
+cli-windows:
 	mkdir -p $(DIST_DIR)/windows
 	GOOS=windows GOARCH=amd64 go build -o $(DIST_DIR)/windows/$(BINARY_NAME)_cli.exe ./$(CLI_DIR)
-	mkdir -p $(DIST_DIR)/linux
-	GOOS=linux GOARCH=amd64 go build -o $(DIST_DIR)/linux/$(BINARY_NAME)_cli ./$(CLI_DIR)
+cli-linux:
+	mkdir -p $(DIST_DIR)/ubuntu
+	GOOS=linux GOARCH=amd64 go build -o $(DIST_DIR)/ubuntu/$(BINARY_NAME)_cli ./$(CLI_DIR)
 
-gui:
-	mkdir -p $(DIST_DIR)
-	go build -o $(DIST_DIR)/$(BINARY_NAME)_gui ./$(GUI_DIR)
+gui: gui-macos gui-macos-m1 gui-windows gui-linux
+
+gui-macos:
+	mkdir -p $(DIST_DIR)/macos
+	GOOS=darwin GOARCH=amd64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_gui ./$(GUI_DIR)
+gui-macos-m1:
+	mkdir -p $(DIST_DIR)/macos
+	GOOS=darwin GOARCH=amd64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_gui ./$(GUI_DIR)
+gui-windows:
+	mkdir -p $(DIST_DIR)/windows
+	GOOS=windows GOARCH=amd64 go build -o $(DIST_DIR)/windows/$(BINARY_NAME)_gui.exe ./$(GUI_DIR)
+gui-linux:
+	mkdir -p $(DIST_DIR)/ubuntu
+	GOOS=linux GOARCH=amd64 go build -v -gcflags="all=-N -l" -o $(DIST_DIR)/ubuntu/$(BINARY_NAME)_gui ./$(GUI_DIR)
 
 clean:
 	rm -rf $(DIST_DIR)/*
