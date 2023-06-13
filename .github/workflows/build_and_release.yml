@@ -12,8 +12,8 @@ jobs:
   build-cli:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+        os: [macos, windows, ubuntu]
+    runs-on: ${{ matrix.os }}-latest
     steps:
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
@@ -34,13 +34,13 @@ jobs:
           asset_name: ${{ env.BINARY_NAME }}_cli_${{ matrix.os }}
           tag: ${{ github.ref }}
           overwrite: true
-          body: "This is my release text"
+          body: ${{ github.ref }}
 
   build-gui:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+        os: [macos, windows, ubuntu]
+    runs-on: ${{ matrix.os }}-latest
     steps:
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
@@ -60,8 +60,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/${{ env.BINARY_NAME }}_gui
+          file: ./dist/${{ matrix.os }}/${{ env.BINARY_NAME }}_gui
           asset_name: ${{ env.BINARY_NAME }}_gui_${{ matrix.os }}
           tag: ${{ github.ref }}
           overwrite: true
-          body: "This is my release text"
+          body: ${{ github.ref }}
