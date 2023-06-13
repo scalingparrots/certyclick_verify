@@ -28,14 +28,22 @@ jobs:
       - name: Get dependencies
         run: go mod download
       - name: Build CLI
-        run: make cli
+        shell: bash
+        run: |
+          if [[ "${{ matrix.os }}" == "macos" ]]; then
+            make cli-macos
+          elif [[ "${{ matrix.os }}" == "ubuntu" ]]; then
+            make cli-linux
+          elif [[ "${{ matrix.os }}" == "windows" ]]; then
+            make cli-windows
+          fi
       - name: Upload Release Asset CLI
         id: upload-release-asset-cli
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./dist/${{ matrix.os }}/${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_cli.exe' || '_cli' }}
-          asset_name: ${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_cli.exe' || '_cli' }}_${{ matrix.os }}
+          asset_name: ${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_cli.exe' || '_cli' }}
           tag: ${{ github.ref }}
           overwrite: true
           body: ${{ github.ref }}
@@ -73,7 +81,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./dist/${{ matrix.os }}/${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_gui.exe' || '_gui' }}
-          asset_name: ${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_gui.exe' || '_gui' }}_${{ matrix.os }}
+          asset_name: ${{ env.BINARY_NAME }}${{ matrix.os == 'windows' && '_gui.exe' || '_gui' }}
           tag: ${{ github.ref }}
           overwrite: true
           body: ${{ github.ref }}
