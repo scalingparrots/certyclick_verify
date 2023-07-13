@@ -40,3 +40,6 @@ gui-linux:
 
 clean:
 	rm -rf $(DIST_DIR)/*
+
+test:
+	go test ./...
