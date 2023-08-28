@@ -19,7 +19,7 @@ func CalculateHash(filePath string) (string, error) {
 		return "", err
 	}
 
-	hasher := sha3.NewLegacyKeccak512()
+	hasher := sha256.New()
 	hasher.Write(fileBytes)
 	hashed := hasher.Sum(nil)
 
