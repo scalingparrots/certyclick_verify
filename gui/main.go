@@ -25,7 +25,6 @@ func main() {
 
 	entry := widget.NewEntry()
 	entry.SetPlaceHolder("Enter previously calculated hash here")
-
 	upload_button := widget.NewButton("Select File", func() {
 		fd := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
 			if err == nil && reader == nil {
@@ -49,7 +48,7 @@ func main() {
 		}
 		defer file.Close()
 
-		hashed, err := core.CalculateHash(file)
+		hashed, err := core.CalculateHash(filePath)
 		if err != nil {
 			output.SetText(fmt.Sprintf("Error calculating file hash: %s", err.Error()))
 			return

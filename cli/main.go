@@ -16,7 +16,7 @@ func main() {
 	}
 	defer file.Close()
 
-	hashed, err := core.CalculateHash(file)
+	hashed, err := core.CalculateHash(args[1])
 	if err != nil {
 		fmt.Println("Error calculating file hash:", err)
 		return

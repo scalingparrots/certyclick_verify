@@ -4,26 +4,28 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/hex"
+
 	sha256_simd "github.com/minio/sha256-simd"
+
+	"os"
 
 	black2b_simd "github.com/minio/blake2b-simd"
 	"golang.org/x/crypto/sha3"
-	"os"
 )
 
 // CalculateHash is a utility function to calculate the hash of a file.
 // algorithm used: keccak-512
-func CalculateHash(filePath string) (string, error) {
+func CalculateHash(filePath string) ([]byte, error) {
 	fileBytes, err := os.ReadFile(filePath)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	hasher := sha256.New()
 	hasher.Write(fileBytes)
 	hashed := hasher.Sum(nil)
 
-	return hex.EncodeToString(hashed), nil
+	return hashed, nil
 }
 
 // CalculateAllHashes is a utility function to calculate all the hashes of a file.
