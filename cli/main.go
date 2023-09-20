@@ -9,12 +9,10 @@ import (
 
 func main() {
 	args := os.Args
-	file, err := core.OpenFile(args[1])
-	if err != nil {
-		fmt.Println("Error opening file:", err)
+	if len(args) != 3 {
+		fmt.Println("Usage: certyclick_verify <file> <hash>")
 		return
 	}
-	defer file.Close()
 
 	hashed, err := core.CalculateHash(args[1])
 	if err != nil {

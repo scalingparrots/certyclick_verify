@@ -41,13 +41,6 @@ func main() {
 	})
 
 	button := widget.NewButton("Verify Hash", func() {
-		file, err := core.OpenFile(filePath)
-		if err != nil {
-			output.SetText(fmt.Sprintf("Error opening file: %s", err.Error()))
-			return
-		}
-		defer file.Close()
-
 		hashed, err := core.CalculateHash(filePath)
 		if err != nil {
 			output.SetText(fmt.Sprintf("Error calculating file hash: %s", err.Error()))
