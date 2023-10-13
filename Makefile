@@ -12,10 +12,10 @@ cli: cli-macos cli-macos-m1 cli-windows cli-linux
 
 cli-macos:
 	mkdir -p $(DIST_DIR)/macos
-	GOOS=darwin GOARCH=amd64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_cli ./$(CLI_DIR)
+	GOOS=darwin GOARCH=amd64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_cli_intel ./$(CLI_DIR)
 cli-macos-m1:
 	mkdir -p $(DIST_DIR)/macos
-	GOOS=darwin GOARCH=arm64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_cli ./$(CLI_DIR)
+	GOOS=darwin GOARCH=arm64 go build -o $(DIST_DIR)/macos/$(BINARY_NAME)_cli_m1 ./$(CLI_DIR)
 cli-windows:
 	mkdir -p $(DIST_DIR)/windows
 	GOOS=windows GOARCH=amd64 go build -o $(DIST_DIR)/windows/$(BINARY_NAME)_cli.exe ./$(CLI_DIR)

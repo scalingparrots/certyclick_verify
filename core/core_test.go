@@ -23,13 +23,13 @@ func TestCalculateHash(t *testing.T) {
 	}
 
 	// Calculate the hash of the file
-	hashed, err := core.CalculateHash(file)
+	hashed, err := core.CalculateHash(file.Name())
 	if err != nil {
 		t.Fatal("Error calculating file hash:", err)
 	}
 
 	// Compare the calculated hash with the expected hash
-	expected := "a69f73cca23a9ac5c8b567dc185a756e97c982164fe25859e0d1dcc1475c80a615b2123af1f5f94c11e3e9402c3ac558f500199d95b6d3e301758586281dcd26"
+	expected := "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069"
 	if fmt.Sprintf("%x", hashed) != expected {
 		t.Fatalf("Expected hash %s, got %x", expected, hashed)
 	}
